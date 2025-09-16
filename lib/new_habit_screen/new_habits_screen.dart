@@ -205,6 +205,7 @@ class _NewHabitsScreenState extends State<NewHabitsScreen> {
             // ignore: deprecated_member_use
             color: isSelected
                 ? const Color(0xFF4F46E5)
+                // ignore: deprecated_member_use
                 : Colors.white.withOpacity(0.3),
             width: 1,
           ),

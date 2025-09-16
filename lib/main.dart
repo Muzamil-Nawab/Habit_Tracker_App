@@ -1,7 +1,8 @@
 //import 'package:device_preview_plus/device_preview_plus.dart';
 //import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:habits_tracker_app/onbourding_screen/onbourding_screen.dart';
+//import 'package:habits_tracker_app/onbourding_screen/onbourding_screen.dart';
+import 'package:habits_tracker_app/splash_screen/splash_screen.dart';
 
 void main() {
   runApp(
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: OnboardingScreen(),
+      home: SplashScreen(),
+      //OnboardingScreen(),
     );
   }
 }
