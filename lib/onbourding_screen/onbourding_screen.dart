@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:habits_tracker_app/constraint/contraints.dart';
-import 'package:habits_tracker_app/login_screen/login_screen.dart';
-import 'package:habits_tracker_app/register_screen/register_screen.dart';
+import 'package:habits_tracker_app/Auth/login_screen.dart';
+import 'package:habits_tracker_app/Auth/register_screen.dart';
 import 'package:habits_tracker_app/widgets/button_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart'; //  New import
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -15,28 +16,28 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
-/// list for image showing on onbourding screen //////
+  /// list for image showing on onbourding screen //////
   final List<Map<String, String>> slides = [
     {
-      'image': 'lib/assets/Healthy habit-bro.png',
+      'image': 'assets/Healthy habit-bro.png',
       'title': 'Build Balanced Habits',
       'subtitle':
           'Track workouts, nutrition, hydration, and rest—all in one place.',
     },
     {
-      'image': 'lib/assets/Indoor bike-bro.png',
+      'image': 'assets/Indoor bike-bro.png',
       'title': 'Exercise Anywhere',
       'subtitle': 'Log cardio, strength, and stretches—right from home or gym.',
     },
     {
-      'image': 'lib/assets/Market launch-bro.png',
+      'image': 'assets/Market launch-bro.png',
       'title': 'Launch Your Potential',
       'subtitle':
           'Set goals, maintain streaks, and watch your progress skyrocket.',
     },
   ];
 
-///  code for dots shoiwng on bottom the pics ////////
+  ///  code for dots shoiwng on bottom the pics ////////
   Widget _buildDots() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -56,7 +57,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-/// function for next page ////
+  /// Function to handle completing onboarding (Skip or Get Started)
+  Future<void> _completeOnboarding(Widget nextScreen) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('hasSeenOnboarding', true); //  Set the flag to true
+    Navigator.pushReplacement(
+      // ignore: use_build_context_synchronously
+      context,
+      MaterialPageRoute(builder: (context) => nextScreen),
+    );
+  }
+
+  /// function for next page ////
   void _nextPage() {
     if (_currentPage < slides.length - 1) {
       _pageController.nextPage(
@@ -64,18 +76,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         curve: Curves.easeInOut,
       );
     } else {
-      // Navigate to register screen
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) =>  RegisterScreen()),
-      );
+      // Navigate to register screen after onboarding is complete
+      _completeOnboarding(const RegisterScreen()); //  Use the new function
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            backgroundColor: Color(0xFF0D1421), // Ensure background is white
+      backgroundColor: Color(0xFF0D1421), // Ensure background is white
       body: SafeArea(
         child: Column(
           children: [
@@ -85,14 +94,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
-                  
                   onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginScreen(),
-                      ),
-                    );
+                    // Navigate to login screen after skipping onboarding
+                    _completeOnboarding(const LoginScreen()); //  Use the new function
                   },
                   child: Text(
                     'Skip',
@@ -170,11 +174,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 height: 48,
                 child: _currentPage == slides.length - 1
                     ? ButtonWidget(
-                        text: "Get Started", // Fixed: proper button text
-                        onPressed: _nextPage,
+                        text: "Get Started",
+                        onPressed: _nextPage, // This will call _completeOnboarding
                         backgroundColor: AppStyle.primaryGreen,
-                        textColor: Colors
-                            .white, // Add text color if your ButtonWidget supports it
+                        textColor: Colors.white,
                       )
                     : ElevatedButton(
                         onPressed: _nextPage,

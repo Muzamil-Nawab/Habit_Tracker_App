@@ -139,6 +139,12 @@ class ProfileScreen extends StatelessWidget {
               subtitle: "App information",
               onTap: () {},
             ),
+            _buildProfileOption(
+              icon: Icons.logout,
+              title: "Logout",
+              subtitle: "Exit from App",
+              onTap: () {},
+            ),
           ],
         ),
       ),

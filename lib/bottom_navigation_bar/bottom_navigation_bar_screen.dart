@@ -18,9 +18,9 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
 
   ///     here is bottom tab screen    /////
   final List<Widget> _screens = [
-    HomeScreen(),
-    StatisticsScreen(),
-    ProfileScreen(),
+    const HomeScreen(),
+    const StatisticsScreen(),
+    const ProfileScreen(),
   ];
 
   @override

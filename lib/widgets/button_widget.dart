@@ -10,6 +10,7 @@ class ButtonWidget extends StatelessWidget {
   final double height;
   final double borderRadius;
   final EdgeInsetsGeometry margin;
+  final bool loading;
 
   const ButtonWidget({
     super.key,
@@ -19,7 +20,8 @@ class ButtonWidget extends StatelessWidget {
     this.textColor,
     this.height = 48,
     this.borderRadius = 13,
-    this.margin = const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+    this.margin = const EdgeInsets.symmetric(vertical: 0, horizontal: 0), 
+    this.loading = false,
   });
 
   @override
@@ -30,7 +32,7 @@ class ButtonWidget extends StatelessWidget {
       height: height,
       margin: margin,
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed: loading ? null : onPressed,
         style: ElevatedButton.styleFrom(
           foregroundColor: textColor ?? Colors.white,
           backgroundColor: backgroundColor ?? AppStyle.primaryGreen,
@@ -39,7 +41,16 @@ class ButtonWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(borderRadius),
           ),
         ),
-        child: Text(
+        child: loading
+          ? const SizedBox(
+              height: 22,
+              width: 22,
+              child: CircularProgressIndicator(
+                color: Colors.white,
+                strokeWidth: 2.5,
+              ),
+            ) 
+            : Text(
           text,
           style: theme.textTheme.labelLarge?.copyWith(
             color: textColor ?? Colors.white,

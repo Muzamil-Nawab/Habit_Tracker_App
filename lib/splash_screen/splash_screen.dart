@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:habits_tracker_app/onbourding_screen/onbourding_screen.dart';
+import 'package:habits_tracker_app/services/splash_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -11,17 +12,26 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+  SplashService splashScreen = SplashService();
+  
   @override
-  void initState() {
-    super.initState();
-    // After 3 seconds, go to HomeScreen
-    Timer(const Duration(seconds: 3), () {
+void initState() {
+  super.initState();
+
+  splashScreen.isLogin(context);
+
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
+        // ignore: use_build_context_synchronously
         context,
         MaterialPageRoute(builder: (context) => const OnboardingScreen()),
       );
     });
-  }
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20)
           ),
-          child: Image(image: AssetImage("lib/assets/App_logo.png")),
+          child: Image(image: AssetImage("lib/assets/Logo_pic.png")),
         ),
       ),
     );

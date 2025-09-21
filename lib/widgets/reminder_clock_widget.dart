@@ -46,7 +46,7 @@ class ReminderClockWidget extends StatelessWidget {
             Switch(
               value: isEnabled,
               onChanged: onToggle,
-              activeColor: Colors.white, // Thumb color when ON
+              activeThumbColor: Colors.white, // Thumb color when ON
               activeTrackColor: Colors.deepPurple, // Track color when ON
               inactiveThumbColor: Colors.deepPurpleAccent, // Thumb color when OFF
               inactiveTrackColor: Colors.white, // Track color when OFF
